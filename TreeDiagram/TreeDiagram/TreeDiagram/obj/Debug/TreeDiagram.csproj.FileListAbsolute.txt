@@ -1,0 +1,10 @@
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\bin\Debug\TreeDiagram.exe.config
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\bin\Debug\TreeDiagram.exe
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\bin\Debug\TreeDiagram.pdb
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.csprojAssemblyReference.cache
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.frmTreeDiagram.resources
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.Properties.Resources.resources
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.csproj.GenerateResource.cache
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.csproj.CoreCompileInputs.cache
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.exe
+C:\Users\aalcazar\OneDrive - Gainwell Technologies\Documents\Visual Studio 2017\Projects\TreeDiagram\TreeDiagram\TreeDiagram\obj\Debug\TreeDiagram.pdb

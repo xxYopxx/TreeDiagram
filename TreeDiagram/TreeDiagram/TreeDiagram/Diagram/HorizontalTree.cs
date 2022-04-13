@@ -18,9 +18,9 @@ namespace TreeDiagram.Diagram
         int BlackPenWith = 5;
         int RedPenWith = 5;
         int CableSeparation = 50;
-        public int CableLength = 100;
-        public int BoxLength = 50;
-        public int BoxHeight = 20;
+        public int CableLength = 200;
+        public int BoxLength = 100;
+        public int BoxHeight = 50;
         int StartPointX = 500;
         int StartPointY = 500;
         int CanvasWidth = 1000;
@@ -140,8 +140,13 @@ namespace TreeDiagram.Diagram
 
         private void DrawBox(Point Begin, Size Markup)
         {
+            string Name = "Component";
+            Font NameFont = new Font("Arial", 10);
+            Point NameBegin = new Point(Begin.X + 10, Begin.Y + 10);
+            SolidBrush NameBrush = new SolidBrush(Color.Black);
             Rectangle box = new Rectangle(Begin, Markup);
             Diagram.DrawRectangle(penBlack, box);
+            Diagram.DrawString(Name, NameFont, NameBrush, NameBegin);
             //bmp.Save("C:\\Test\\Test.bmp");
         }
 
