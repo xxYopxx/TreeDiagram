@@ -55,6 +55,8 @@ namespace TreeDiagram
             {
                 DataItem Cable = new DataItem();
                 Cable.Name = CableCount == 1 ? "PJ68" : CableCount == 2 ? "PJ70" : CableCount == 3 ? "PJ71" : "PJ72";
+                Cable.CarriesData = true;
+                Cable.Data = Cable.Name;
                 Cable.Type = BranchType.Cable;
                 Cable.CableSide = CableCount == 1 ? Side.Left : Side.Right;
                 if (CableCount == 2)
@@ -66,6 +68,8 @@ namespace TreeDiagram
                     {
                         DataItem Cable2 = new DataItem();
                         Cable2.Name = Cable2Count == 1 ? "PJ67" : Cable2Count == 2 ? "PJ69" : "PJ33";
+                        Cable2.CarriesData = true;
+                        Cable2.Data = Cable2.Name;
                         Cable2.Type = BranchType.Cable;
                         Cable2.CableSide = Cable2Count == 3 ? Side.Right : Side.Left;
                         Component.Children.Add(Cable2);

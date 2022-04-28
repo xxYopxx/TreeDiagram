@@ -27,6 +27,8 @@ namespace TreeDiagram.Diagram
     public class DataItem
     {
         public string Name { get; set; }
+        public string Data { get; set; }
+        public bool CarriesData { get; set; }
         public BranchType Type { get; set; }
         public Side CableSide { get; set; }
         public List<DataItem> Children = new List<DataItem>();

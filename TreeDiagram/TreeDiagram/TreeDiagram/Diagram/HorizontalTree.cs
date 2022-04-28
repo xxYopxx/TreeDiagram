@@ -17,10 +17,12 @@ namespace TreeDiagram.Diagram
         public Pen penBlack;
         int BlackPenWith = 5;
         int RedPenWith = 5;
-        int CableSeparation = 50;
-        public int CableLength = 200;
+        int CableSeparation = 100;
+        public int CableLength = 300;
         public int BoxLength = 100;
         public int BoxHeight = 50;
+        public int DataBoxLength = 100;
+        public int DataBoxHeight = 50;
         int StartPointX = 500;
         int StartPointY = 500;
         int CanvasWidth = 1000;
@@ -109,14 +111,14 @@ namespace TreeDiagram.Diagram
                             LeftIndex += 1;
                             CableStartPoint = new Point(Starting.X, Starting.Y + (BoxHeight / 2));
                             CableEndPoint = CalulateCableEnd(CableStartPoint, LeftIndex, LeftCableCount, Side.Left);
-                            DrawCable(CableStartPoint, CableEndPoint);
+                            DrawCable(CableStartPoint, CableEndPoint,Side.Left, child.Name,child.CarriesData, child.Data);
                         }
                         if (child.CableSide == Side.Right)
                         {
                             RightIndex += 1;
                             CableStartPoint = new Point(Starting.X + BoxLength, Starting.Y + (BoxHeight / 2));
                             CableEndPoint = CalulateCableEnd(CableStartPoint, RightIndex, RightCableCount, Side.Right);
-                            DrawCable(CableStartPoint, CableEndPoint);
+                            DrawCable(CableStartPoint, CableEndPoint, Side.Right, child.Name, child.CarriesData, child.Data);
                         }
                         if (child.HasChildren())
                         {
@@ -125,17 +127,36 @@ namespace TreeDiagram.Diagram
                                 CableEndPoint.Y = CableEndPoint.Y - (BoxHeight / 2);
                                 DrawComponentBlock(CableEndPoint, grandChild, child.Name);
                             }
-
                         }
                     }
                 }
             }
         }
 
-        private void DrawCable(Point Begin, Point End)
+        private void DrawCable(Point Begin, Point End, Side side, string Name, bool CarriesData, string Data)
         {
             Diagram.DrawLine(penRed, Begin, End);
-            //bmp.Save("C:\\Test\\Test.bmp");
+            Point CableNameBegin = new Point();
+            if (side == Side.Left)
+                CableNameBegin = new Point(End.X + (CableLength / 2) - 20, End.Y - 20);
+            else
+                CableNameBegin = new Point(Begin.X + (CableLength / 2) - 20, End.Y - 20);
+            SolidBrush NameBrush = new SolidBrush(Color.Black);
+            Font NameFont = new Font("Arial", 10);
+            Diagram.DrawString(Name, NameFont, NameBrush, CableNameBegin);
+            if (CarriesData)
+            {
+                // Draw Data box
+                Point DataBoxBegin = new Point(End.X - DataBoxLength - 10, End.Y - DataBoxHeight - 10);
+                Point DataBegin = new Point(DataBoxBegin.X + 5, DataBoxBegin.Y + 5);
+                Rectangle DataBox = new Rectangle(DataBoxBegin, new Size(DataBoxLength, DataBoxHeight));
+                SolidBrush DataBrush = new SolidBrush(Color.Black);
+                Font DataFont = new Font("Arial", 10);
+                Diagram.DrawRectangle(penBlack, DataBox);
+                Diagram.DrawString(Data, DataFont, DataBrush, DataBegin);
+                //Diagram.DrawString(Name, NameFont, NameBrush, CableNameBegin);
+                //bmp.Save("C:\\Test\\Test.bmp");
+            }
         }
 
         private void DrawBox(Point Begin, Size Markup)
