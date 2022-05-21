@@ -50,6 +50,19 @@ namespace TreeDiagram
 
         private void btnGen_PJS_S1_Click(object sender, EventArgs e)
         {
+            List<Item> Source = new List<Item>();
+            Source.Add(new Item("176-PJ68", "Long: 11.75\" \nCalibre: 16\nTipo: GXL\nTerm: 140001", BranchType.Cable, "PJ-S1", Side.Left));
+            Source.Add(new Item("PJ-S1", "PJ-S1\nManga: 106318", BranchType.Box, true));
+            Source.Add(new Item("176-PJ70", "Long: 14.75\"\nCalibre: 16\nTipo: GXL", BranchType.Cable, "PJ-S1", Side.Right));
+            Source.Add(new Item("176-PJ71", "Long: 13.25\"\nCalibre: 16\nTipo: GXL\nTerm: 140001", BranchType.Cable, "PJ-S1", Side.Right));
+            Source.Add(new Item("176-PJ72", "Long: 14.00\"\nCalibre: 16\nTipo: GXL\nTerm: 140001", BranchType.Cable, "PJ-S1", Side.Right));
+            Source.Add(new Item("PJ-S6", "PJ-S6\nManga: 106318", BranchType.Box, "176-PJ70"));
+            Source.Add(new Item("176-PJ69", "Long: 9.75\"\nCalibre: 16\nTipo: GXL\nTerm: 140001", BranchType.Cable, "PJ-S6", Side.Left));
+            Source.Add(new Item("176-PJ67", "Long: 11.00\"\nCalibre: 16\nTipo: GXL\nTerm: 140001", BranchType.Cable, "PJ-S6", Side.Left));
+            Source.Add(new Item("176-PJ33", "Long: 99.00\"\nCalibre: 16\nTipo: GXL\nTerm: 140002", BranchType.Cable, "PJ-S6", Side.Right));
+            DataTree Tree = new DataTree();
+            Tree.FillDataTree(Source);
+            /*
             DataTree BOM = new DataTree("US-");
             for(int CableCount = 1; CableCount < 5; CableCount++)
             {
@@ -77,9 +90,10 @@ namespace TreeDiagram
                     Cable.Children.Add(Component);
                 }
                 BOM.AddRootChild(Cable);
-            }
+            }*/
             HorizontalTree Diagram = new HorizontalTree(pbDiagram);
-            Diagram.FillDataTree(BOM);
+            Diagram.Settings.FileLocation = "C:\\Test\\Test.bmp";
+            Diagram.FillDataTree(Tree);
             //pbDiagram.Image = Image.FromFile("C:\\Test\\Test.bmp");
             Diagram.Dispose();
         }
