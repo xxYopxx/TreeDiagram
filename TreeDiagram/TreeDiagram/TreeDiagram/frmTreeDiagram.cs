@@ -97,5 +97,39 @@ namespace TreeDiagram
             //pbDiagram.Image = Image.FromFile("C:\\Test\\Test.bmp");
             Diagram.Dispose();
         }
+
+        private void Generate_MS30_Click(object sender, EventArgs e)
+        {
+            List<Item> Source = new List<Item>();
+            Source.Add(new Item("M-S30", "M-S30", BranchType.Box, true));
+            Source.Add(new Item("M80", "", BranchType.Cable, "M-S30", Side.Left));
+            Source.Add(new Item("M31", "", BranchType.Cable, "M-S30", Side.Right));
+            Source.Add(new Item("M130", "", BranchType.Cable, "M-S30", Side.Right));
+            Source.Add(new Item("M-S6", "M-S6", BranchType.Box, "M130"));
+            Source.Add(new Item("M79", "", BranchType.Cable, "M-S6", Side.Left));
+            Source.Add(new Item("M-S8", "M-S8", BranchType.Box, "M79"));
+            Source.Add(new Item("M84", "", BranchType.Cable, "M-S8", Side.Right));
+            Source.Add(new Item("M134", "", BranchType.Cable, "M-S8", Side.Right));
+            Source.Add(new Item("M-S32", "M-S32", BranchType.Box, "M134"));
+            Source.Add(new Item("M136", "", BranchType.Cable, "M-S32", Side.Right));
+            Source.Add(new Item("M78", "", BranchType.Cable, "M-S32", Side.Left));
+            Source.Add(new Item("M-S4", "M-S4", BranchType.Box, "M78"));
+            Source.Add(new Item("M341", "", BranchType.Cable, "M-S4", Side.Right));
+            Source.Add(new Item("M693", "", BranchType.Cable, "M-S4", Side.Left));
+            Source.Add(new Item("M-S35", "M-S35", BranchType.Box, "M693"));
+            Source.Add(new Item("M58", "", BranchType.Cable, "M-S35", Side.Right));
+            Source.Add(new Item("M691", "", BranchType.Cable, "M-S35", Side.Right));
+            DataTree Tree = new DataTree();
+            Tree.FillDataTree(Source);
+            HorizontalTree Diagram = new HorizontalTree(pbDiagram);
+            Diagram.Settings.FileLocation = "C:\\Test\\Test.bmp";
+            Diagram.Settings.StartPointX = 1000;
+            Diagram.Settings.StartPointY = 1000;
+            Diagram.Settings.CanvasHeight = 4000;
+            Diagram.Settings.CanvasWidth = 4000;
+            Diagram.FillDataTree(Tree);
+            //pbDiagram.Image = Image.FromFile("C:\\Test\\Test.bmp");
+            Diagram.Dispose();
+        }
     }
 }

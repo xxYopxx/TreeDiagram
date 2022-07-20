@@ -30,15 +30,16 @@
         {
             this.groupContent = new System.Windows.Forms.GroupBox();
             this.pnlDiagram = new System.Windows.Forms.Panel();
-            this.groupParameters = new System.Windows.Forms.GroupBox();
-            this.btnPJS4 = new System.Windows.Forms.Button();
             this.pbDiagram = new System.Windows.Forms.PictureBox();
-            this.btnTest = new System.Windows.Forms.Button();
+            this.groupParameters = new System.Windows.Forms.GroupBox();
             this.btnGen_PJS_S1 = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
+            this.btnPJS4 = new System.Windows.Forms.Button();
+            this.Generate_MS30 = new System.Windows.Forms.Button();
             this.groupContent.SuspendLayout();
             this.pnlDiagram.SuspendLayout();
-            this.groupParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDiagram)).BeginInit();
+            this.groupParameters.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupContent
@@ -62,9 +63,19 @@
             this.pnlDiagram.Size = new System.Drawing.Size(903, 257);
             this.pnlDiagram.TabIndex = 0;
             // 
+            // pbDiagram
+            // 
+            this.pbDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbDiagram.Location = new System.Drawing.Point(0, 0);
+            this.pbDiagram.Name = "pbDiagram";
+            this.pbDiagram.Size = new System.Drawing.Size(903, 257);
+            this.pbDiagram.TabIndex = 0;
+            this.pbDiagram.TabStop = false;
+            // 
             // groupParameters
             // 
             this.groupParameters.AutoSize = true;
+            this.groupParameters.Controls.Add(this.Generate_MS30);
             this.groupParameters.Controls.Add(this.btnGen_PJS_S1);
             this.groupParameters.Controls.Add(this.btnTest);
             this.groupParameters.Controls.Add(this.btnPJS4);
@@ -75,24 +86,15 @@
             this.groupParameters.TabStop = false;
             this.groupParameters.Text = "Parameters";
             // 
-            // btnPJS4
+            // btnGen_PJS_S1
             // 
-            this.btnPJS4.Location = new System.Drawing.Point(17, 31);
-            this.btnPJS4.Name = "btnPJS4";
-            this.btnPJS4.Size = new System.Drawing.Size(131, 23);
-            this.btnPJS4.TabIndex = 0;
-            this.btnPJS4.Text = "Recreate PJ-S4";
-            this.btnPJS4.UseVisualStyleBackColor = true;
-            this.btnPJS4.Click += new System.EventHandler(this.btnPJS4_Click);
-            // 
-            // pbDiagram
-            // 
-            this.pbDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbDiagram.Location = new System.Drawing.Point(0, 0);
-            this.pbDiagram.Name = "pbDiagram";
-            this.pbDiagram.Size = new System.Drawing.Size(903, 257);
-            this.pbDiagram.TabIndex = 0;
-            this.pbDiagram.TabStop = false;
+            this.btnGen_PJS_S1.Location = new System.Drawing.Point(154, 31);
+            this.btnGen_PJS_S1.Name = "btnGen_PJS_S1";
+            this.btnGen_PJS_S1.Size = new System.Drawing.Size(112, 23);
+            this.btnGen_PJS_S1.TabIndex = 2;
+            this.btnGen_PJS_S1.Text = "PJ-S6|PJ-S1";
+            this.btnGen_PJS_S1.UseVisualStyleBackColor = true;
+            this.btnGen_PJS_S1.Click += new System.EventHandler(this.btnGen_PJS_S1_Click);
             // 
             // btnTest
             // 
@@ -104,15 +106,25 @@
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
-            // btnGen_PJS_S1
+            // btnPJS4
             // 
-            this.btnGen_PJS_S1.Location = new System.Drawing.Point(154, 31);
-            this.btnGen_PJS_S1.Name = "btnGen_PJS_S1";
-            this.btnGen_PJS_S1.Size = new System.Drawing.Size(112, 23);
-            this.btnGen_PJS_S1.TabIndex = 2;
-            this.btnGen_PJS_S1.Text = "PJ-S6|PJ-S1";
-            this.btnGen_PJS_S1.UseVisualStyleBackColor = true;
-            this.btnGen_PJS_S1.Click += new System.EventHandler(this.btnGen_PJS_S1_Click);
+            this.btnPJS4.Location = new System.Drawing.Point(17, 31);
+            this.btnPJS4.Name = "btnPJS4";
+            this.btnPJS4.Size = new System.Drawing.Size(131, 23);
+            this.btnPJS4.TabIndex = 0;
+            this.btnPJS4.Text = "Recreate PJ-S4";
+            this.btnPJS4.UseVisualStyleBackColor = true;
+            this.btnPJS4.Click += new System.EventHandler(this.btnPJS4_Click);
+            // 
+            // Generate_MS30
+            // 
+            this.Generate_MS30.Location = new System.Drawing.Point(272, 31);
+            this.Generate_MS30.Name = "Generate_MS30";
+            this.Generate_MS30.Size = new System.Drawing.Size(75, 23);
+            this.Generate_MS30.TabIndex = 3;
+            this.Generate_MS30.Text = "MS30";
+            this.Generate_MS30.UseVisualStyleBackColor = true;
+            this.Generate_MS30.Click += new System.EventHandler(this.Generate_MS30_Click);
             // 
             // frmTreeDiagram
             // 
@@ -126,8 +138,8 @@
             this.groupContent.ResumeLayout(false);
             this.groupContent.PerformLayout();
             this.pnlDiagram.ResumeLayout(false);
-            this.groupParameters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDiagram)).EndInit();
+            this.groupParameters.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,6 +154,7 @@
         private System.Windows.Forms.PictureBox pbDiagram;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnGen_PJS_S1;
+        private System.Windows.Forms.Button Generate_MS30;
     }
 }
 

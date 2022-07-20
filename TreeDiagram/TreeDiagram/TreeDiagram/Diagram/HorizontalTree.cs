@@ -17,6 +17,7 @@ namespace TreeDiagram.Diagram
         public Pen penBlack;
         public Point Start;
         public TreeConfiguration Settings;
+        private List<Point> OccupiedPoints = new List<Point>();
         public HorizontalTree(object BaseCanvas)
         {
             Settings = new TreeConfiguration();
@@ -28,7 +29,7 @@ namespace TreeDiagram.Diagram
             Diagram = Graphics.FromImage(bmp);
         }
 
-        public Point CalulateCableEnd(Point Beginning, int Index, int TotalCables, Side CableSide)
+        public Point CalulateCableEnd(Point Beginning, ref int Index, int TotalCables, Side CableSide, Point ObjectInit, Point ObjectEnd)
         {
             Point Result = new Point(0, 0);
             if (TotalCables == 1 && CableSide == Side.Right)
@@ -36,52 +37,94 @@ namespace TreeDiagram.Diagram
             if (TotalCables == 1 && CableSide == Side.Left)
                 Result = new Point(Beginning.X - Settings.CableLength, Beginning.Y);
             else
+                Result = PointCalculation(Beginning, Index, TotalCables, CableSide);
+            // If resulting point is already used by the source then recalculate
+            if (VerifyOccupiedPoints(Result))
             {
-                int NewY = 0;
-                int Division = 0;
-                int MiddleCable = 0;
-                bool IsEven = Index % 2 == 0;
-                bool IsTotalEven = TotalCables % 2 == 0;
-                bool IsAboveZero = false;
-                bool IsMiddle = false;
-                int IndexValue = 0;
-                if (IsTotalEven)
-                    Division = (TotalCables * Settings.CableSeparation) / 2;
-                else
+                bool IsOccupied = true;
+                while (IsOccupied)
                 {
-                    MiddleCable = (TotalCables / 2) + 1;
-                    Division = ((TotalCables - 1) * Settings.CableSeparation) / 2;
-                    IsMiddle = Index == MiddleCable;
+                    Index += 1;
+                    TotalCables += 1;
+                    Result = PointCalculation(Beginning, Index, TotalCables, CableSide);
+                    IsOccupied = VerifyOccupiedPoints(Result);
                 }
-                IndexValue = Index == 1 ? Division : Division - ((Index - 1) * Settings.CableSeparation);
-                IsAboveZero = Division - (Index * Settings.CableSeparation) >= 0;
-
-                if (IsMiddle)
-                    NewY = 0;
-                else
-                {
-                    NewY = IndexValue;
-                }
-                if (CableSide == Side.Right)
-                    Result = new Point(Beginning.X + Settings.CableLength, Beginning.Y + NewY);
-                else
-                    Result = new Point(Beginning.X - Settings.CableLength, Beginning.Y + NewY);
             }
+            return Result;
+        }
+
+        private bool VerifyOccupiedPoints(Point GeneratedPoint)
+        {
+            if (OccupiedPoints.Count > 0)
+            {
+                foreach (var Item in OccupiedPoints)
+                {
+                    if (Item.X == GeneratedPoint.X && Item.Y == GeneratedPoint.Y)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private Point PointCalculation(Point Beginning, int Index, int TotalCables,Side CableSide)
+        {
+            Point Result = new Point(0, 0);
+            int NewY = 0;
+            int Division = 0;
+            int MiddleCable = 0;
+            bool IsEven = Index % 2 == 0;
+            bool IsTotalEven = TotalCables % 2 == 0;
+            bool IsAboveZero = false;
+            bool IsMiddle = false;
+            int IndexValue = 0;
+            if (IsTotalEven)
+                Division = (TotalCables * Settings.CableSeparation) / 2;
+            else
+            {
+                MiddleCable = (TotalCables / 2) + 1;
+                Division = ((TotalCables - 1) * Settings.CableSeparation) / 2;
+                IsMiddle = Index == MiddleCable;
+            }
+            IndexValue = Index == 1 ? Division : Division - ((Index - 1) * Settings.CableSeparation);
+            IsAboveZero = Division - (Index * Settings.CableSeparation) >= 0;
+
+            if (IsMiddle)
+                NewY = 0;
+            else
+            {
+                NewY = IndexValue;
+            }
+            if (CableSide == Side.Right)
+                Result = new Point(Beginning.X + Settings.CableLength, Beginning.Y + NewY);
+            else
+                Result = new Point(Beginning.X - Settings.CableLength, Beginning.Y + NewY);
             return Result;
         }
 
         public void FillDataTree(DataTree Source)
         {
+            SetSettings();
             Tree = Source;
             DataItem root = Tree.RootComponent;
             // Draw main component
-            DrawComponentBlock(Start, root, "");
+            DrawComponentBlock(Start, new Point(), new Point(), root, "");
             bmp.Save(Settings.FileLocation);
         }
 
-        private void DrawComponentBlock(Point Starting, DataItem Source, string ConnectionName)
+        private void SetSettings()
         {
-            DrawBox(Starting, new Size(Settings.BoxLength, Settings.BoxHeight), Source.Name);
+            penRed = new Pen(Color.Red, Settings.RedPenWith);
+            penBlack = new Pen(Color.Black, Settings.BlackPenWith);
+            Start = new Point(Settings.StartPointX, Settings.StartPointY);
+            bmp = new Bitmap(Settings.CanvasWidth, Settings.CanvasHeight);
+            Diagram = Graphics.FromImage(bmp);
+        }
+
+        private void DrawComponentBlock(Point ObjectStart, Point ConnectionStart, Point ConnectionEnd, DataItem Source, string ConnectionName)
+        {
+            DrawBox(ObjectStart, new Size(Settings.BoxLength, Settings.BoxHeight), Source.Name);
 
             if (Source.HasChildren())
             {
@@ -99,23 +142,35 @@ namespace TreeDiagram.Diagram
                         if (child.CableSide == Side.Left)
                         {
                             LeftIndex += 1;
-                            CableStartPoint = new Point(Starting.X, Starting.Y + (Settings.BoxHeight / 2));
-                            CableEndPoint = CalulateCableEnd(CableStartPoint, LeftIndex, LeftCableCount, Side.Left);
+                            CableStartPoint = new Point(ObjectStart.X, ObjectStart.Y + (Settings.BoxHeight / 2));
+                            CableEndPoint = CalulateCableEnd(CableStartPoint, ref LeftIndex, LeftCableCount, Side.Left, ConnectionStart, ConnectionEnd);
                             DrawCable(CableStartPoint, CableEndPoint,Side.Left, child.Name,child.CarriesData, child.Data);
                         }
                         if (child.CableSide == Side.Right)
                         {
                             RightIndex += 1;
-                            CableStartPoint = new Point(Starting.X + Settings.BoxLength, Starting.Y + (Settings.BoxHeight / 2));
-                            CableEndPoint = CalulateCableEnd(CableStartPoint, RightIndex, RightCableCount, Side.Right);
+                            CableStartPoint = new Point(ObjectStart.X + Settings.BoxLength, ObjectStart.Y + (Settings.BoxHeight / 2));
+                            CableEndPoint = CalulateCableEnd(CableStartPoint, ref RightIndex, RightCableCount, Side.Right, ConnectionStart, ConnectionEnd);
                             DrawCable(CableStartPoint, CableEndPoint, Side.Right, child.Name, child.CarriesData, child.Data);
                         }
                         if (child.HasChildren())
                         {
                             foreach (DataItem grandChild in child.Children)
                             {
-                                CableEndPoint.Y = CableEndPoint.Y - (Settings.BoxHeight / 2);
-                                DrawComponentBlock(CableEndPoint, grandChild, child.Name);
+                                Point ObjectStartPoint = new Point();
+                                if (child.CableSide == Side.Left)
+                                {
+                                    ObjectStartPoint = new Point(CableEndPoint.X-Settings.BoxLength, CableEndPoint.Y - (Settings.BoxHeight / 2));
+                                }
+                                else
+                                {
+                                    ObjectStartPoint = new Point(CableEndPoint.X, CableEndPoint.Y - (Settings.BoxHeight / 2));
+                                }
+                                OccupiedPoints.Add(CableStartPoint);
+                                OccupiedPoints.Add(new Point(CableStartPoint.X -Settings.BoxLength, CableStartPoint.Y));
+                                OccupiedPoints.Add(new Point(CableStartPoint.X + Settings.BoxLength, CableStartPoint.Y));
+                                
+                                DrawComponentBlock(ObjectStartPoint, CableEndPoint, CableStartPoint, grandChild, child.Name);
                             }
                         }
                     }
@@ -145,8 +200,9 @@ namespace TreeDiagram.Diagram
                 Diagram.DrawRectangle(penBlack, DataBox);
                 Diagram.DrawString(Data, DataFont, DataBrush, DataBegin);
                 //Diagram.DrawString(Name, NameFont, NameBrush, CableNameBegin);
-                //bmp.Save("C:\\Test\\Test.bmp");
+                
             }
+            bmp.Save("C:\\Test\\Test.bmp");
         }
 
         private void DrawBox(Point Begin, Size Markup, string Name)
@@ -157,7 +213,7 @@ namespace TreeDiagram.Diagram
             Rectangle box = new Rectangle(Begin, Markup);
             Diagram.DrawRectangle(penBlack, box);
             Diagram.DrawString(Name, NameFont, NameBrush, NameBegin);
-            //bmp.Save("C:\\Test\\Test.bmp");
+            bmp.Save("C:\\Test\\Test.bmp");
         }
 
         public void Dispose()

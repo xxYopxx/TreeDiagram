@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TreeDiagram.Diagram
 {
     public enum BranchType { Cable, Box }
-    public enum Side { Left, Right }
+    public enum Side { Left, Right, None }
     
     public class DataTree
     {
